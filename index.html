@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="./pages/index.css">
+	<title>Mesto</title>
+</head>
+<body class="body">
+	
+	<div class="page">
+
+		<form class="form "> <!--popup_opened-->
+
+			<div class="form__container">
+				
+				<button class="form__close-button button"><img class="form__close-icon" src="images/Close-Icon.svg" alt="Закрыть"></button>
+
+				<h2 class="form__heading">Редактировать профиль</h2>
+
+				<fieldset class="form__input-container">
+
+					<input type="text" class="form__input" name="name" placeholder="Жак-Ив Кусто" required>
+					<input type="text" class="form__input" name="position" placeholder="Исследователь океана">
+
+				</fieldset>
+
+				<fieldset class="form__input-container">
+
+					<button class="button form__button">Сохранить</button>
+
+				</fieldset>
+
+			</div>
+
+		</form>
+ 
+		<header class="header">
+
+			<a href="#" class="logo"><img src="./images/logo.svg" alt="Место" class="logo__image"></a>
+
+		</header>
+
+		<main class="content">
+
+			<section class="profile">
+
+				<div class="profile__info">
+
+					<img class="profile__avatar" src="./images/Avatar.webp" alt="Аватар">
+					<h1 class="profile__name">Жак-Ив Кусто</h1>
+					<button class="profile__edit-button button"><img class="profile__edit-button-image" src="images/edit.svg" alt="Редактировать профиль"></button>
+					<p class="profile__caption">Исследователь океана</p>
+
+				</div>
+
+				<button class="profile__add-button button "><img class="profile__add-button-image" src="./images/Vector.svg" alt="Добавить"></button>
+
+			</section>
+
+			<section class="cards">
+
+				<article class="card">
+					<img src="images/Karachaevsk.webp" alt="Карачаевск" class="card__image">
+					<div class="card__wrapper">
+						<h2 class="card__heading">Карачаевск</h2>
+						<a class="card__icon" href="#"><img src="images/like.svg" alt=""></a>
+					</div>
+				</article>
+				<article class="card">
+					<img src="images/Mountain-Elbrus.webp" alt="Гора Эльбрус" class="card__image">
+					<div class="card__wrapper">
+						<h2 class="card__heading">Гора Эльбрус</h2>
+						<a class="card__icon" href="#"><img src="images/like.svg" alt=""></a>
+					</div>
+				</article>
+				<article class="card">
+					<img src="images/Dombay.webp" alt="Домбай" class="card__image">
+					<div class="card__wrapper">
+						<h2 class="card__heading">Домбай</h2>
+						<a class="card__icon" href="#"><img src="images/like.svg" alt=""></a>
+					</div>
+				</article>
+				<article class="card">
+					<img src="images/Mountain-Elbrus.webp" alt="Гора Эльбрус" class="card__image">
+					<div class="card__wrapper">
+						<h2 class="card__heading">Гора Эльбрус</h2>
+						<a class="card__icon" href="#"><img src="images/like.svg" alt=""></a>
+					</div>
+				</article>
+				<article class="card">
+					<img src="images/Dombay.webp" alt="Домбай" class="card__image">
+					<div class="card__wrapper">
+						<h2 class="card__heading">Домбай</h2>
+						<a class="card__icon" href="#"><img src="images/like.svg" alt=""></a>
+					</div>
+				</article>
+				<article class="card">
+					<img src="images/Karachaevsk.webp" alt="Карачаевск" class="card__image">
+					<div class="card__wrapper">
+						<h2 class="card__heading">Карачаево-Черкесская Республика</h2>
+						<a class="card__icon" href="#"><img src="images/like.svg" alt=""></a>
+					</div>
+				</article>
+
+			</section>
+
+		</main>
+
+		<footer class="footer">
+
+			<p class="footer__author">&copy; 2020 Mesto Russia</p>
+
+		</footer>
+
+	</div>
+
+</body>
+</html>

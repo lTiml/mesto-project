@@ -1,0 +1,9 @@
+.card__wrapper {
+	background-color: #fff;
+	padding: 25px 20px 30px;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}

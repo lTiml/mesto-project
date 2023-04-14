@@ -1,0 +1,11 @@
+.profile__caption {
+	margin: 0;
+}
+
+@media screen and (max-width: 320px) {
+	.profile__caption {
+		font-size: 14px;
+		grid-column: span 2;
+		text-align: center;
+	}
+}
