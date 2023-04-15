@@ -4,6 +4,12 @@
 	cursor: pointer;
 	background-color: transparent;
 	transition: opacity 0.3s ease;
+	background-image: url(../../../images/like.svg);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	width: 22px;
+	height: 19px;
 }
 
 .card__icon:hover {
