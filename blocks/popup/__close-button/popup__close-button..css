@@ -1,6 +1,10 @@
-.form__close-button {
+.popup__close-button {
 	position: absolute;
 	padding: 0;
+	background-image: url(../../../images/Close-Icon.svg);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
 	border: none;
 	right: -39px;
 	top: -39px;
@@ -9,7 +13,7 @@
 }
 
 @media screen and (max-width: 320px) {
-	.form__close-button {
+	.popup__close-button {
 		width: 20px;
 		height: 20px;
 		right: 0;

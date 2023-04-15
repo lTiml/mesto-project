@@ -1,4 +1,8 @@
 .card__icon {
+	border: none;
+	padding: 0;
+	cursor: pointer;
+	background-color: transparent;
 	transition: opacity 0.3s ease;
 }
 

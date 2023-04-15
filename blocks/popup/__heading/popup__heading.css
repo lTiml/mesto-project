@@ -1,11 +1,12 @@
-.form__heading {
+.popup__heading {
 	margin: 0;
 	font-size: 24px;
+	line-height: 29px;
 	font-weight: 900;
 }
 
 @media screen and (max-width: 320px) {
-	.form__heading {
+	.popup__heading {
 		font-size: 18px;
 	}
 }
