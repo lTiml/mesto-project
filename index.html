@@ -36,48 +36,7 @@
 
 			<section class="cards">
 
-				<article class="card">
-					<img src="images/Karachaevsk.webp" alt="Карачаевск" class="card__image">
-					<div class="card__wrapper">
-						<h2 class="card__heading">Карачаевск</h2>
-						<button type="button" class="card__icon"></button>
-					</div>
-				</article>
-				<article class="card">
-					<img src="images/Mountain-Elbrus.webp" alt="Гора Эльбрус" class="card__image">
-					<div class="card__wrapper">
-						<h2 class="card__heading">Гора Эльбрус</h2>
-						<button type="button" class="card__icon"></button>
-					</div>
-				</article>
-				<article class="card">
-					<img src="images/Dombay.webp" alt="Домбай" class="card__image">
-					<div class="card__wrapper">
-						<h2 class="card__heading">Домбай</h2>
-						<button type="button" class="card__icon"></button>
-					</div>
-				</article>
-				<article class="card">
-					<img src="images/Mountain-Elbrus.webp" alt="Гора Эльбрус" class="card__image">
-					<div class="card__wrapper">
-						<h2 class="card__heading">Гора Эльбрус</h2>
-						<button type="button" class="card__icon"></button>
-					</div>
-				</article>
-				<article class="card">
-					<img src="images/Dombay.webp" alt="Домбай" class="card__image">
-					<div class="card__wrapper">
-						<h2 class="card__heading">Домбай</h2>
-						<button type="button" class="card__icon"></button>
-					</div>
-				</article>
-				<article class="card">
-					<img src="images/Karachaevsk.webp" alt="Карачаевск" class="card__image">
-					<div class="card__wrapper">
-						<h2 class="card__heading">Карачаево-Черкесская Республика</h2>
-						<button type="button" class="card__icon"></button>
-					</div>
-				</article>
+				
 
 			</section>
 
@@ -89,15 +48,13 @@
 
 		</footer>
 
-		<div class="popup "> <!--popup_opened-->
+		<div class="popup popup-edit "> <!--popup_opened-->
 
 			<div class="popup__container">
 
-				<button class="popup__close-button button" type="button"></button>
-
+				<button class="popup__close-button popup__close-edit-button button" type="button"></button>
 				<h2 class="popup__heading">Редактировать профиль</h2>
-
-				<form action="name" name="profile-form" class="popup__form">
+				<form action="name" name="profile-form" class="popup__form popup__editForm">
 
 					<input type="text" class="popup__input popup__input_type_name" name="name" placeholder="Жак-Ив Кусто" required>
 					<input type="text" class="popup__input popup__input_type_status" name="position" placeholder="Исследователь океана">
@@ -105,12 +62,54 @@
 					<button class="popup__button button" type="submit">Сохранить</button>
 
 				</form>
-
+				
 			</div>
 
 		</div>
 
+		<div class="popup popup-add "> <!--popup_opened-->
+
+			<div class="popup__container">
+
+				<button class="popup__close-button popup__close-add-button button" type="button"></button>
+				<h2 class="popup__heading">Новое место</h2>
+				<form action="name" name="profile-form" class="popup__form popup__addForm">
+
+					<input type="text" class="popup__input popup__input_type_place" name="name" placeholder="Название" required>
+					<input type="text" class="popup__input popup__input_type_url" name="position" placeholder="Ссылка на картинку" required>
+
+					<button class="popup__button button" type="submit">Сохранить</button>
+
+				</form>
+				
+			</div>
+
+		</div>
+
+		<div class="popup popup__big-image "> <!--popup_opened-->
+			<div class="popup__container">
+				<button class="popup__close-button popup__close-add-button button" type="button"></button>
+				<figure class="popup__image-container">
+					<img class="popup__image" src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg" alt="Байкал">
+					<figcaption class="popup__image-caption">Байкал</figcaption>
+				</figure>
+			</div>
+		</div>
+
 	</div>
+
+	<template id="cards-template">
+		<article class="card">
+			<img src="images/Karachaevsk.webp" alt="Карачаевск" class="card__image">
+			<button class="card__trash-icon"></button>
+			<div class="card__wrapper">
+				<h2 class="card__heading">Карачаевск</h2>
+				<button type="button" class="card__like"></button>
+			</div>
+		</article>
+	</template>
+
+	<script src="./js/script.js"></script>
 
 </body>
 </html>

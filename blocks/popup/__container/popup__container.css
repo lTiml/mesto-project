@@ -11,6 +11,13 @@
 	box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
 }
 
+.popup__container:has(.popup__image-container) {
+	padding: 0;
+	border-radius: 0;
+	background-color: transparent;
+	flex-basis: auto;
+}
+
 @media screen and (max-width: 320px) {
 	.popup__container {
 		padding: 25px 22px;
