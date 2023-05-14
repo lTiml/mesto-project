@@ -17,7 +17,7 @@ const inputUrl = document.querySelector('.popup__input_type_url');
 const cardsContainer = document.querySelector('.cards');
 
 // Открытие/Закрытие попап окон & поля формы формы профиля
-addPopupForm.addEventListener('click', createCard);
+
 function openPopup (popup) {
 	popup.classList.add('popup_opened');
 };
