@@ -14,6 +14,8 @@ const nameInput = popupEditForm.querySelector('.popup__input_type_name');
 const jobInput = popupEditForm.querySelector('.popup__input_type_status');
 const inputPlace = document.querySelector('.popup__input_type_place');
 const inputUrl = document.querySelector('.popup__input_type_url');
+const cardPopupImage = document.querySelector('.popup__image');
+const cardPopupCaption = document.querySelector('.popup__image-caption');
 const cardsContainer = document.querySelector('.cards');
 
 // Открытие/Закрытие попап окон & поля формы формы профиля
@@ -45,16 +47,11 @@ function editProfile (evt) {
 	evt.preventDefault();
 	profileName.textContent = nameInput.value;
 	profileJob.textContent = jobInput.value;
+
+	closePopup(editPopup);
 };
 
 editProfileForm.addEventListener('submit', editProfile);
-
-// Закрываем попап при нажатии на кнопку Submit
-
-popupSubmitButtons.forEach((button) => {
-	const popup = button.closest('.popup');
-	button.addEventListener('click', () => closePopup(popup))
-})
 
 // Шесть карточек из коробки
 
@@ -85,17 +82,15 @@ const initialCards = [
 	}
 ];
 
-function createCard(item) {
+function createCard(placeName, placeLink) {
 	const cardsTemplate = document.querySelector('#cards-template').content;
 	const cardElement = cardsTemplate.querySelector('.card').cloneNode(true);
 	const cardElementImage = cardElement.querySelector('.card__image');
 	const cardElementHeading = cardElement.querySelector('.card__heading');
-	const cardPopupImage = document.querySelector('.popup__image');
-	const cardPopupCaption = document.querySelector('.popup__image-caption');
 
-	cardElementImage.src = item.link;
-	cardElementImage.alt = item.name;
-	cardElementHeading.textContent = item.name;
+	cardElementImage.src = placeLink;
+	cardElementImage.alt = placeName;
+	cardElementHeading.textContent = placeName;
 
 	cardElement.querySelector('.card__like').addEventListener('click', (event) => {event.target.classList.toggle('card__like_active')});
 	cardElement.querySelector('.card__trash-icon').addEventListener('click', (event) => {event.target.closest('.card').remove()});
@@ -110,18 +105,13 @@ function createCard(item) {
 };
 
 initialCards.forEach((item) => {
-	const card = createCard(item);
+	const card = createCard(item.name, item.link);
 	cardsContainer.append(card);
 });
 
 addPopupForm.addEventListener('submit', (evt) => {
 	evt.preventDefault();
-
-	item = {
-		name: inputPlace.value,
-		link: inputUrl.value,
-	}
-	item = createCard(item);
-
-	cardsContainer.prepend(item);
+	cardsContainer.prepend(createCard(inputPlace.value, inputUrl.value));
+	evt.target.reset();
+	closePopup(addPopup);
 });
