@@ -56,10 +56,12 @@
 				<h2 class="popup__heading">Редактировать профиль</h2>
 				<form action="name" name="profile-form" class="popup__form popup__editForm">
 
-					<input type="text" class="popup__input popup__input_type_name" name="name" placeholder="Введите имя..." required>
-					<input type="text" class="popup__input popup__input_type_status" name="position" placeholder="Введите свою профессию...">
+					<input type="text" class="popup__input popup__input_type_name" name="name" id="name-input" placeholder="Введите имя..." required minlength="2" maxlength="40" pattern="^[a-zA-Zа-яА-Я\-\s]+$" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
+					<span class="popup__error" id="name-input-error"></span>
+					<input type="text" class="popup__input popup__input_type_status" name="position" id="job-input" placeholder="Введите свою профессию..." required minlength="2" maxlength="200" pattern="^[a-zA-Zа-яА-Я\-\s]+$" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
+					<span class="popup__error" id="job-input-error"></span>
 
-					<button class="popup__button button" type="submit">Сохранить</button>
+					<button class="popup__button button" type="submit" >Сохранить</button>
 
 				</form>
 				
@@ -75,10 +77,12 @@
 				<h2 class="popup__heading">Новое место</h2>
 				<form action="name" name="card-form" class="popup__form popup__addForm">
 
-					<input type="text" class="popup__input popup__input_type_place" name="name" placeholder="Название" required>
-					<input type="text" class="popup__input popup__input_type_url" name="position" placeholder="Ссылка на картинку" required>
+					<input type="text" class="popup__input popup__input_type_place" name="name" id="place-input" placeholder="Название" required minlength="2" maxlength="30" pattern="^[a-zA-Zа-яА-Я\-\s]+$" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
+					<span class="popup__error" id="place-input-error"></span>
+					<input type="text" class="popup__input popup__input_type_url" name="position" id="link-input" placeholder="Ссылка на картинку" required pattern="^http(s)?:\/\/([\w-]+.)+[\w-]+(/[\w- ./?%&=])?$" data-error-message="Введите адрес сайта">
+					<span class="popup__error" id="link-input-error"></span>
 
-					<button class="popup__button button" type="submit">Сохранить</button>
+					<button class="popup__button button" type="submit" >Сохранить</button>
 
 				</form>
 				
@@ -100,7 +104,7 @@
 
 	<template id="cards-template">
 		<article class="card">
-			<img src="images/Karachaevsk.webp" alt="Карачаевск" class="card__image">
+			<img src="./images/Karachaevsk.webp" alt="Карачаевск" class="card__image">
 			<button class="card__trash-icon"></button>
 			<div class="card__wrapper">
 				<h2 class="card__heading">Карачаевск</h2>
@@ -109,7 +113,7 @@
 		</article>
 	</template>
 
-	<script src="./js/script.js"></script>
+	<script type="module" src="./index.js"></script>
 
 </body>
 </html>
