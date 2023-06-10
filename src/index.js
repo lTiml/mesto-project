@@ -1,8 +1,8 @@
 import './pages/index.css';
-import { openPopup, closePopup, closePopupOnMouseoutClick, closePopupByEsc } from './components/modal.js';
+import { openPopup, closePopup, closePopupByEsc } from './components/modal.js';
 import { enableValidation } from './components/validate.js';
 import { initialCards, createCard } from './components/card.js';
-import { editPopup, imagePopup, profileName, profileJob, nameInput, jobInput, config } from './components/utils.js';
+import { editPopup, profileName, profileJob, nameInput, jobInput, config } from './components/utils.js';
 
 const formPopupProfile = document.forms['profile-form'];
 const formPopupAdding = document.forms['card-form'];
@@ -48,13 +48,5 @@ formPopupAdding.addEventListener('submit', (evt) => {
 	evt.target.reset();
 	closePopup(addPopup);
 });
-
-// closePopupOnEscape(editPopup);
-// closePopupOnEscape(addPopup);
-// closePopupOnEscape(imagePopup);
-
-closePopupOnMouseoutClick(editPopup);
-closePopupOnMouseoutClick(addPopup);
-closePopupOnMouseoutClick(imagePopup);
 
 enableValidation(config);
