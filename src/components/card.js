@@ -1,7 +1,5 @@
-import { imagePopup } from "../index";
-
-const cardPopupImage = document.querySelector('.popup__image');
-const cardPopupCaption = document.querySelector('.popup__image-caption');
+import { imagePopup, cardPopupImage, cardPopupCaption } from "./utils.js";
+import { openPopup } from "./modal.js";
 
 const initialCards = [
 	{

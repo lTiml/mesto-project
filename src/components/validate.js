@@ -1,3 +1,4 @@
+import { config } from './utils.js'
 
 const hasInvalidInput = inputList => {
 	return inputList.some(input => {

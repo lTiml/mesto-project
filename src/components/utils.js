@@ -1,25 +1,20 @@
-function openPopup (popup) {
-	popup.classList.add('popup_opened');
-};
+const editPopup = document.querySelector('.popup-edit');
+const imagePopup = document.querySelector('.popup__big-image');
+const profileName = document.querySelector('.profile__name');
+const profileJob = document.querySelector('.profile__caption');
+const formEditPopup = document.querySelector('.popup__editForm');
+const nameInput = formEditPopup.querySelector('.popup__input_type_name');
+const jobInput = formEditPopup.querySelector('.popup__input_type_status');
+const cardPopupImage = document.querySelector('.popup__image');
+const cardPopupCaption = document.querySelector('.popup__image-caption');
 
-function closePopup(popup) {
-	popup.classList.remove('popup_opened');
-};
+const config = ({
+	formSelector: '.popup__form',
+	inputSelector: '.popup__input ',
+	submitButtonSelector: '.popup__button',
+	inactiveButtonClass: 'popup__button_disabled',
+	inputErrorClass: 'popup__input_type_error',
+	errorClass: 'popup__error_visible'
+});
 
-function closePopupOnEscape(popup) {
-	document.addEventListener('keydown', evt => {
-		if (evt.key === 'Escape') {
-			closePopup(popup)
-		}
-	});
-};
-
-function closePopupOnMouseoutClick(popup) {
-	popup.addEventListener('click', e => {
-		if (e.target === popup) {
-			closePopup(popup)
-		}
-	})
-}
-
-export { openPopup, closePopup, closePopupOnEscape, closePopupOnMouseoutClick };
+export { editPopup, imagePopup, profileName, profileJob, nameInput, jobInput, cardPopupImage, cardPopupCaption, config }
