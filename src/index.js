@@ -1,8 +1,10 @@
-import './pages/index.css';
-import { openPopup, closePopup, closePopupByEsc } from './components/modal.js';
-import { enableValidation } from './components/validate.js';
+// import './pages/index.css';
+import { openPopup, closePopup } from './components/modal.js';
+import { enableValidation, disabledSubmitButton } from './components/validate.js';
 import { initialCards, createCard } from './components/card.js';
 import { editPopup, profileName, profileJob, nameInput, jobInput, config } from './components/utils.js';
+// import { resetErr } from "./components/validate.js";
+
 
 const formPopupProfile = document.forms['profile-form'];
 const formPopupAdding = document.forms['card-form'];
@@ -18,7 +20,6 @@ buttonEditProfile.addEventListener('click', () => {
 	openPopup(editPopup);
 	nameInput.value = profileName.textContent;
 	jobInput.value = profileJob.textContent;
-	document.addEventListener('keydown', closePopupByEsc(editPopup))
 });
 
 function editProfile() {
@@ -29,8 +30,10 @@ function editProfile() {
 	closePopup(editPopup);
 };
 
-buttonAddNewCard.addEventListener('click', () => openPopup(addPopup));
-
+buttonAddNewCard.addEventListener('click', () => {
+	openPopup(addPopup);
+	disabledSubmitButton(addPopup)
+});
 formPopupProfile.addEventListener('submit', editProfile);
 
 closePopupButtons.forEach((button) => {
