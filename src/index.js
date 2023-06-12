@@ -1,4 +1,4 @@
-// import './pages/index.css';
+import './pages/index.css';
 import { openPopup, closePopup } from './components/modal.js';
 import { enableValidation, disabledSubmitButton } from './components/validate.js';
 import { initialCards, createCard } from './components/card.js';
