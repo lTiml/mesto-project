@@ -17,4 +17,12 @@ const config = ({
 	errorClass: 'popup__error_visible'
 });
 
-export { editPopup, imagePopup, profileName, profileJob, nameInput, jobInput, cardPopupImage, cardPopupCaption, config }
+const serverConfig = {
+	url: "https://nomoreparties.co/v1/plus-cohort-25",
+	headers: {
+		authorization: "adc8e3cc-cb42-435c-8b1d-a7d4774aba24",
+		"Content-Type": "application/json",
+	}
+};
+
+export { editPopup, imagePopup, profileName, profileJob, nameInput, jobInput, cardPopupImage, cardPopupCaption, config, serverConfig }
