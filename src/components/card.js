@@ -1,53 +1,69 @@
-import { imagePopup, cardPopupImage, cardPopupCaption } from "./utils.js";
-import { openPopup } from "./modal.js";
+import { cardsContainer, handleWatchingLikesState, handleDeleteCard } from '../index.js';
+import { imagePopup, cardPopupImage, cardPopupCaption } from './utils.js';
+import { openPopup } from './modal.js';
 
-const initialCards = [
-	{
-		name: 'Майами',
-		link: 'https://images.unsplash.com/photo-1597535973747-951442d5dbc7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=736&q=80'
-	},
-	{
-		name: 'Нью-Йорк',
-		link: 'https://images.unsplash.com/photo-1576157792381-1301f25b960d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'
-	},
-	{
-		name: 'Иваново',
-		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-	},
-	{
-		name: 'Камчатка',
-		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-	},
-	{
-		name: 'Гавайи',
-		link: 'https://images.unsplash.com/photo-1603998086701-ced9802e52c0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=685&q=80'
-	},
-	{
-		name: 'Байкал',
-		link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+const isLiked = (likesArr, userId) => {
+	return Boolean(
+		likesArr.find((likes) => {
+			return likes._id === userId;
+		})
+	);
+};
+
+const watchingLikesState = (cardElement, likesArr, userId) => {
+	const cardLikeButton = cardElement.querySelector('.card__like');
+	const cardLikeCounter = cardElement.querySelector('.card__like-counter');
+
+	cardLikeCounter.textContent = likesArr.length;
+
+	if (isLiked(likesArr, userId)) {
+		cardLikeButton.classList.add('card__like_active')
+	} else {
+		cardLikeButton.classList.remove('card__like_active')
 	}
-];
+};
 
-function createCard(placeName, placeLink) {
+const removeCard = (cardElement) => {
+	cardElement.remove();
+	cardElement = null;
+};
+
+function createCard(data, userId) {
 	const cardsTemplate = document.querySelector('#cards-template').content;
 	const cardElement = cardsTemplate.querySelector('.card').cloneNode(true);
 	const cardElementImage = cardElement.querySelector('.card__image');
 	const cardElementHeading = cardElement.querySelector('.card__heading');
+	const cardLikeButton = cardElement.querySelector('.card__like'); 
+	const cardDeleteButton = cardElement.querySelector('.card__trash-icon');
+	
+	cardElementImage.src = data.link;
+	cardElementImage.alt = data.name;
+	cardElementHeading.textContent = data.name;
 
-	cardElementImage.src = placeLink;
-	cardElementImage.alt = placeName;
-	cardElementHeading.textContent = placeName;
+	watchingLikesState(cardElement, data.likes, userId);
 
-	cardElement.querySelector('.card__like').addEventListener('click', (event) => {event.target.classList.toggle('card__like_active')});
-	cardElement.querySelector('.card__trash-icon').addEventListener('click', (event) => {event.target.closest('.card').remove()});
+	if (data.owner._id !== userId) {
+		cardDeleteButton.remove();
+	}
+
+	cardLikeButton.addEventListener('click', () => {
+		handleWatchingLikesState(data._id, cardLikeButton.classList.contains('card__like_active'), cardElement)
+	});
+
+	cardDeleteButton.addEventListener('click', () => handleDeleteCard(data._id, cardElement));
 	cardElementImage.addEventListener('click', () => {
 		openPopup(imagePopup);
-		cardPopupImage.src = cardElementImage.src;
-		cardPopupImage.alt = cardElementImage.alt;
-		cardPopupCaption.textContent = cardElementImage.alt;
+		cardPopupImage.alt = data.name;
+		cardPopupCaption.textContent = data.name;
+		cardPopupImage.src = data.link;
 	});
 
 	return cardElement;
 };
 
-export { initialCards, createCard }
+const renderCards = ( cardsContainer, data, userId) => {
+	const cardElement = createCard(data, userId);
+	cardsContainer.prepend(cardElement);
+};
+
+export { createCard, renderCards, removeCard, watchingLikesState };

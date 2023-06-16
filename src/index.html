@@ -23,10 +23,13 @@
 
 				<div class="profile__info">
 
-					<img class="profile__avatar" src="<%=require('./images/avatar.png')%>" alt="Аватар">
-					<h1 class="profile__name">Жак-Ив Кусто</h1>
+					<div class="profile__avatar">
+						<img class="profile__avatar-image" src="<%=require('./images/avatar.jpg')%>" alt="Аватар">
+					</div>
+					<!-- <img class="profile__avatar" src="./images/avatar.png" alt="Аватар"> -->
+					<h1 class="profile__name">Максим Козлов</h1>
 					<button aria-label="Редактировать профиль" class="profile__edit-button button" type="button"></button>
-					<p class="profile__caption">Исследователь океана</p>
+					<p class="profile__caption">Студент Практикума</p>
 
 				</div>
 
@@ -61,7 +64,7 @@
 					<input type="text" class="popup__input popup__input_type_status" name="position" id="job-input" placeholder="Введите свою профессию..." required minlength="2" maxlength="200" pattern="^[a-zA-Zа-яА-ЯЁё\-\s]+$" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
 					<span class="popup__error" id="job-input-error"></span>
 
-					<button class="popup__button button" type="submit">Сохранить</button>
+					<button class="popup__button popup__button-edit-profile button" type="submit">Сохранить</button>
 
 				</form>
 				
@@ -79,10 +82,10 @@
 
 					<input type="text" class="popup__input popup__input_type_place" name="name" id="place-input" placeholder="Название" required minlength="2" maxlength="30" pattern="^[a-zA-Zа-яА-ЯЁё\-\s]+$" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы">
 					<span class="popup__error" id="place-input-error"></span>
-					<input type="text" class="popup__input popup__input_type_url" name="position" id="link-input" placeholder="Ссылка на картинку" required pattern="^((https?|ftp)\:\/\/)?([a-z0-9]{1})((\.[a-z0-9-])|([a-z0-9-]))*\.([a-z]{2,6})(\/?)$" data-error-message="Введите адрес сайта">
+					<input type="url" class="popup__input popup__input_type_url" name="position" id="link-input" placeholder="Ссылка на картинку" required  data-error-message="Введите адрес сайта">
 					<span class="popup__error" id="link-input-error"></span>
 
-					<button class="popup__button button" type="submit" disabled>Сохранить</button>
+					<button class="popup__button popup__button_add button" type="submit">Сохранить</button>
 
 				</form>
 				
@@ -102,13 +105,35 @@
 
 	</div>
 
+	<div class="popup popup-new-avatar "> <!--popup_opened-->
+
+		<div class="popup__container">
+
+			<button class="popup__close-button popup__close button" type="button"></button>
+			<h2 class="popup__heading">Обновить аватар</h2>
+			<form action="name" name="avatar-form" class="popup__form popup__addForm">
+
+				<input type="url" class="popup__input popup__input_type_avatar_url" name="avatar" id="link-avatar-input" placeholder="Ссылка на картинку" required data-error-message="Введите адрес сайта">
+				<span class="popup__error" id="link-avatar-input-error"></span>
+
+				<button class="popup__button popup__button_new-avatar button" type="submit">Сохранить</button>
+
+			</form>
+			
+		</div>
+
+	</div>
+
 	<template id="cards-template">
 		<article class="card">
 			<img src="./images/Karachaevsk.webp" alt="Карачаевск" class="card__image">
-			<button class="card__trash-icon"></button>
+			<button class="card__trash-icon" type="button"></button>
 			<div class="card__wrapper">
 				<h2 class="card__heading">Карачаевск</h2>
-				<button type="button" class="card__like"></button>
+				<div class="card__like-wrapper">
+					<button type="button" class="card__like"></button>
+					<span class="card__like-counter">0</span>
+				</div>
 			</div>
 		</article>
 	</template>

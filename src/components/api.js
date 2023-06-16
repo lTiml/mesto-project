@@ -8,11 +8,12 @@ const onRes = res => {
 	}
 };
 
-const user = () => {
+const userInfo = () => {
 	return fetch(`${serverConfig.url}/users/me`, {
 		headers: serverConfig.headers
 	})
 	.then(onRes)
+	.catch(err => console.log(`Ошибка в userInfo: ${err}`))
 };
 
 const getCards = () => {
@@ -22,7 +23,7 @@ const getCards = () => {
 	.then(onRes)
 };
 
-const editProfile = (data) => {
+const apiEditProfile = (data) => {
 	return fetch(`${serverConfig.url}/users/me`, {
 		method: "PATCH",
 		headers: serverConfig.headers,
@@ -32,6 +33,7 @@ const editProfile = (data) => {
 };
 
 const addCards = (data) => {
+	console.log(data)
 	return fetch(`${serverConfig.url}/cards`, {
 		method: "POST",
 		headers: serverConfig.headers,
@@ -57,20 +59,28 @@ const deleteCard = (cardId) => {
 	.then(onRes)
 };
 
-const addLike = (cardId) => {
-	return fetch(`${serverConfig.url}/cards/likes/${cardId}`, {
-		method: "PUT",
+// const addLike = (cardId) => {
+// 	return fetch(`${serverConfig.url}/cards/likes/${cardId}`, {
+// 		method: "PUT",
+// 		headers: serverConfig.headers,
+// 	})
+// 	.then(onRes)
+// };
+
+// const removeLike = (cardId) => {
+// 	return fetch(`${serverConfig.url}/cards/likes/${cardId}`, {
+// 		method: "DELETE",
+// 		headers: serverConfig.headers,
+// 	})
+// 	.then(onRes)
+// };
+
+const toggleLikeState = (dataId, isLike) => {
+	return fetch(`${serverConfig.url}/cards/likes/${dataId}`, {
+		method: isLike ? "DELETE" : "PUT",
 		headers: serverConfig.headers,
 	})
-	.then(onRes)
-};
+	.then(res => onRes(res))
+}
 
-const removeLike = (cardId) => {
-	return fetch(`${serverConfig.url}/cards/likes/${cardId}`, {
-		method: "DELETE",
-		headers: serverConfig.headers,
-	})
-	.then(onRes)
-};
-
-export { user, getCards, editProfile, addCards, editAvatar, deleteCard, addLike, removeLike };
+export { userInfo, getCards, apiEditProfile, addCards, editAvatar, deleteCard, toggleLikeState /* addLike, removeLike */ };
