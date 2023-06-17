@@ -21,16 +21,6 @@ const disabledSubmitButton = (formElement) => {
 	button.classList.add(config.inactiveButtonClass);
 };
 
-// const resetErr = (formElement) => {
-// 	const inputList = formElement.querySelectorAll(config.inputSelector);
-	
-// 	inputList.forEach((inputElement) => {
-// 		inputElement.classList.remove(config.inputErrorClass);
-// 		const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
-// 		errorElement.textContent = '';
-// 	})
-// }
-
 const showInputError = (formElement, inputElement, errorMessage) => {
 	const { inputErrorClass, errorClass } = config;
 	const errorElement = formElement.querySelector(`#${inputElement.id}-error`);

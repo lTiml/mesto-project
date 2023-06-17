@@ -1,4 +1,4 @@
-import { cardsContainer, handleWatchingLikesState, handleDeleteCard } from '../index.js';
+import { cardsContainer, handleWatchingLikesState, handleDeleteCard } from '../pages/index.js';
 import { imagePopup, cardPopupImage, cardPopupCaption } from './utils.js';
 import { openPopup } from './modal.js';
 
@@ -63,7 +63,12 @@ function createCard(data, userId) {
 
 const renderCards = ( cardsContainer, data, userId) => {
 	const cardElement = createCard(data, userId);
-	cardsContainer.prepend(cardElement);
+	if (data.owner._id == userId) {
+		cardsContainer.prepend(cardElement);
+	} else {
+		cardsContainer.append(cardElement);
+	}
+	
 };
 
 export { createCard, renderCards, removeCard, watchingLikesState };

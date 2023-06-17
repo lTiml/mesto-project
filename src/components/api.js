@@ -33,7 +33,7 @@ const apiEditProfile = (data) => {
 };
 
 const addCards = (data) => {
-	console.log(data)
+	// console.log(data)
 	return fetch(`${serverConfig.url}/cards`, {
 		method: "POST",
 		headers: serverConfig.headers,
@@ -59,22 +59,6 @@ const deleteCard = (cardId) => {
 	.then(onRes)
 };
 
-// const addLike = (cardId) => {
-// 	return fetch(`${serverConfig.url}/cards/likes/${cardId}`, {
-// 		method: "PUT",
-// 		headers: serverConfig.headers,
-// 	})
-// 	.then(onRes)
-// };
-
-// const removeLike = (cardId) => {
-// 	return fetch(`${serverConfig.url}/cards/likes/${cardId}`, {
-// 		method: "DELETE",
-// 		headers: serverConfig.headers,
-// 	})
-// 	.then(onRes)
-// };
-
 const toggleLikeState = (dataId, isLike) => {
 	return fetch(`${serverConfig.url}/cards/likes/${dataId}`, {
 		method: isLike ? "DELETE" : "PUT",
@@ -83,4 +67,4 @@ const toggleLikeState = (dataId, isLike) => {
 	.then(res => onRes(res))
 }
 
-export { userInfo, getCards, apiEditProfile, addCards, editAvatar, deleteCard, toggleLikeState /* addLike, removeLike */ };
+export { userInfo, getCards, apiEditProfile, addCards, editAvatar, deleteCard, toggleLikeState };

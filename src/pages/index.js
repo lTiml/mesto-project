@@ -1,9 +1,9 @@
-import './pages/index.css';
-import { openPopup, closePopup } from './components/modal.js';
-import { enableValidation, disabledSubmitButton } from './components/validate.js';
-import {  renderCards, watchingLikesState, removeCard } from './components/card.js';
-import { editPopup, profileName, profileJob, profileAvatar, profileAvatarImage, nameInput, jobInput, config, setSubmitButtonState } from './components/utils.js';
-import { userInfo, getCards, apiEditProfile, addCards, editAvatar, deleteCard, toggleLikeState } from './components/api.js';
+import './index.css';
+import { openPopup, closePopup } from '../components/modal.js';
+import { enableValidation, disabledSubmitButton } from '../components/validate.js';
+import {  renderCards, watchingLikesState, removeCard } from '../components/card.js';
+import { editPopup, profileName, profileJob, profileAvatar, profileAvatarImage, nameInput, jobInput, config, setSubmitButtonState } from '../components/utils.js';
+import { userInfo, getCards, apiEditProfile, addCards, editAvatar, deleteCard, toggleLikeState } from '../components/api.js';
 
 const formPopupProfile = document.forms['profile-form'];
 const formPopupAdding = document.forms['card-form'];
@@ -53,17 +53,20 @@ profileAvatar.addEventListener('click', () => {
 	disabledSubmitButton(popupNewAvatar)
 });
 
+const setUserInfo = user => {
+	nameInput.textContent = user.name;
+	jobInput.textContent = user.about;
+	profileAvatarImage.src = user.avatar;
+	userId = user._id;
+};
 
 const getInfo = () => {
 	return Promise.all([userInfo(), getCards()]);
 };
 getInfo()
 .then(([user, initialCards]) => {
-	nameInput.textContent = user.name;
-	jobInput.textContent = user.about;
-	profileAvatarImage.src = user.avatar;
-	userId = user._id;
-	
+	setUserInfo(user)
+
 	initialCards.forEach(data => {
 		renderCards(cardsContainer, data, userId);
 	})
