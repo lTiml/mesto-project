@@ -63,7 +63,7 @@ function createCard(data, userId) {
 
 const renderCards = ( cardsContainer, data, userId) => {
 	const cardElement = createCard(data, userId);
-	if (data.owner._id == userId) {
+	if (data.owner._id === userId) {
 		cardsContainer.prepend(cardElement);
 	} else {
 		cardsContainer.append(cardElement);
