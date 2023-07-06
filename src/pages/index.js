@@ -2,7 +2,7 @@ import './index.css';
 import { openPopup, closePopup } from '../components/modal.js';
 import { enableValidation, disabledSubmitButton } from '../components/validate.js';
 import {  renderCards, watchingLikesState, removeCard } from '../components/card.js';
-import { editPopup, profileName, profileJob, profileAvatar, profileAvatarImage, nameInput, jobInput, config, setSubmitButtonState } from '../components/utils.js';
+import { editPopup, profileName, profileJob, profileAvatar, profileAvatarImage, nameInput, jobInput, config, setSubmitButtonState, inputPlace, inputUrl, inputAvatarUrl } from '../components/utils.js';
 import { userInfo, getCards, apiEditProfile, addCards, editAvatar, deleteCard, toggleLikeState } from '../components/api.js';
 
 const formPopupProfile = document.forms['profile-form'];
@@ -14,9 +14,7 @@ const buttonAddNewCard = document.querySelector('.profile__add-button');
 const popupAddSubmitButton = document.querySelector('.popup__button_add');
 const addPopup = document.querySelector('.popup-add');
 const closePopupButtons = document.querySelectorAll('.popup__close');
-const inputPlace = document.querySelector('.popup__input_type_place');
-const inputUrl = document.querySelector('.popup__input_type_url');
-const inputAvatarUrl = document.querySelector('.popup__input_type_avatar_url');
+
 const buttonSubmitNewAvatar = document.querySelector('.popup__button_new-avatar');
 const buttonSubmitEditProfile = document.querySelector('.popup__button-edit-profile');
 const cardsContainer = document.querySelector('.cards');

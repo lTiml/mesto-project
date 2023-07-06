@@ -1,6 +1,7 @@
 import { cardsContainer, handleWatchingLikesState, handleDeleteCard } from '../pages/index.js';
 import { imagePopup, cardPopupImage, cardPopupCaption } from './utils.js';
 import { openPopup } from './modal.js';
+import { Api } from './api.js';
 
 const isLiked = (likesArr, userId) => {
 	return Boolean(
@@ -27,6 +28,30 @@ const removeCard = (cardElement) => {
 	cardElement.remove();
 	cardElement = null;
 };
+
+class Card {
+	constructor({ data, selector }) {
+		this.name = data.name;
+		this.link = data.link;
+		this.owner = data.owner;
+		this.likes = data.likes;
+		this.selector = selector;
+		this._id = data._id
+	}
+
+	_getElement() {
+		const cardElement = document
+			.querySelector(this.selector)
+			.content.querySelector('.card')
+			.cloneNode(true);
+		return cardElement;
+	}
+
+	generate() {
+		this._element = this._getElement();
+		
+	}
+}
 
 function createCard(data, userId) {
 	const cardsTemplate = document.querySelector('#cards-template').content;
