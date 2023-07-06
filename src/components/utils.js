@@ -7,8 +7,11 @@ const profileAvatarImage = document.querySelector('.profile__avatar-image');
 const formEditPopup = document.querySelector('.popup__editForm');
 const nameInput = formEditPopup.querySelector('.popup__input_type_name');
 const jobInput = formEditPopup.querySelector('.popup__input_type_status');
+const inputPlace = document.querySelector('.popup__input_type_place');
+const inputUrl = document.querySelector('.popup__input_type_url');
 const cardPopupImage = document.querySelector('.popup__image');
 const cardPopupCaption = document.querySelector('.popup__image-caption');
+const inputAvatarUrl = document.querySelector('.popup__input_type_avatar_url');
 
 const config = ({
 	formSelector: '.popup__form',
@@ -37,4 +40,4 @@ const setSubmitButtonState = ({button, text, disabled}) => {
 	button.textContent = text;
 };
 
-export { setSubmitButtonState, editPopup, imagePopup, profileName, profileJob, profileAvatar, nameInput, jobInput, cardPopupImage, cardPopupCaption, config, serverConfig, profileAvatarImage }
+export { setSubmitButtonState, editPopup, imagePopup, profileName, profileJob, profileAvatar, nameInput, jobInput, cardPopupImage, cardPopupCaption, config, serverConfig, profileAvatarImage, inputPlace, inputUrl, inputAvatarUrl }
