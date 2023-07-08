@@ -15,3 +15,4 @@ const presets = [
 ];
 
 module.exports = { presets };
+// webpack --mode production
