@@ -1,6 +1,6 @@
 // import { closePopupByEsc } from "./modal";
 
-export class Popup {
+export default class Popup {
     constructor(popupSelector) {
         this.popupElement = document.querySelector(popupSelector);
         this._handleEscClose = this._handleEscClose.bind(this);

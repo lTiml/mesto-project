@@ -1,8 +1,5 @@
 import { cardsContainer, handleWatchingLikesState, handleDeleteCard } from '../pages/index.js';
-import { imagePopup, cardPopupImage, cardPopupCaption } from './utils.js';
-// import { openPopup } from './modal.js';
-import { Api } from './api.js';
-import { popup } from '../pages/index.js';
+// import { imagePopup, cardPopupImage, cardPopupCaption } from './utils.js';
 
 const isLiked = (likesArr, userId) => {
 	return Boolean(
@@ -53,6 +50,12 @@ class Card {
 
 	}
 }
+import PopupWithImage from './PopupwithImage.js';
+import Popup from './Popup.js';
+
+const imageClassPopup = new PopupWithImage('.popup__big-image', '.popup__image', '.popup__image-caption');
+const popupImage = new Popup('.popup__big-image');
+popupImage.setEventListeners();
 
 function createCard(data, userId) {
 	const cardsTemplate = document.querySelector('#cards-template').content;
@@ -78,11 +81,14 @@ function createCard(data, userId) {
 
 	cardDeleteButton.addEventListener('click', () => handleDeleteCard(data._id, cardElement));
 	cardElementImage.addEventListener('click', () => {
-		popup.open();
-		cardPopupImage.alt = data.name;
-		cardPopupCaption.textContent = data.name;
-		cardPopupImage.src = data.link;
+		imageClassPopup.open({ name: data.name, link: data.link });
 	});
+	// cardElementImage.addEventListener('click', () => {
+	// 	// popup.open();
+	// 	cardPopupImage.alt = data.name;
+	// 	cardPopupCaption.textContent = data.name;
+	// 	cardPopupImage.src = data.link;
+	// });
 
 	return cardElement;
 };

@@ -4,7 +4,8 @@ import { enableValidation, disabledSubmitButton } from '../components/validate.j
 import { renderCards, watchingLikesState, removeCard } from '../components/card.js';
 import { editPopup, profileName, profileJob, profileAvatar, profileAvatarImage, nameInput, jobInput, config, setSubmitButtonState, inputPlace, inputUrl, inputAvatarUrl } from '../components/utils.js';
 import { userInfo, getCards, apiEditProfile, addCards, editAvatar, deleteCard, toggleLikeState } from '../components/api.js';
-import { Popup } from '../components/Popup.js'
+// import { Popup } from '../components/Popup.js'
+import Popup from '../components/Popup'
 
 const formPopupProfile = document.forms['profile-form'];
 const formPopupAdding = document.forms['card-form'];
@@ -14,15 +15,19 @@ const buttonEditProfile = document.querySelector('.profile__edit-button');
 const buttonAddNewCard = document.querySelector('.profile__add-button');
 const popupAddSubmitButton = document.querySelector('.popup__button_add');
 const addPopup = document.querySelector('.popup-add');
-const closePopupButtons = document.querySelectorAll('.popup__close');
+// const closePopupButtons = document.querySelectorAll('.popup__close');
 
 const buttonSubmitNewAvatar = document.querySelector('.popup__button_new-avatar');
 const buttonSubmitEditProfile = document.querySelector('.popup__button-edit-profile');
 const cardsContainer = document.querySelector('.cards');
 
 // создание эксземпляров класса Popup
-export const popup = new Popup('.popup');
-popup.setEventListeners();
+export const popupProfile = new Popup('.popup-edit');
+export const popupNewCard = new Popup('.popup-add');
+export const popupEditAvatar = new Popup('.popup-new-avatar')
+popupProfile.setEventListeners();
+popupNewCard.setEventListeners();
+popupEditAvatar.setEventListeners()
 
 
 let userId = null;
@@ -30,7 +35,7 @@ let userId = null;
 buttonEditProfile.addEventListener('click', () => {
 	// openPopup(editPopup);
 	// popupProfile.open();
-	popup.open();
+	popupProfile.open();
 	nameInput.value = profileName.textContent;
 	jobInput.value = profileJob.textContent;
 });
@@ -39,13 +44,13 @@ function editProfile() {
 
 	profileName.textContent = nameInput.value;
 	profileJob.textContent = jobInput.value;
-	popup.close();
+	// popupProfile.close();
 	// closePopup(editPopup);
 };
 
 buttonAddNewCard.addEventListener('click', () => {
 	// openPopup(addPopup);
-	popup.open();
+	popupNewCard.open();
 	disabledSubmitButton(addPopup)
 });
 
@@ -58,7 +63,7 @@ formPopupProfile.addEventListener('submit', editProfile);
 
 profileAvatar.addEventListener('click', () => {
 	// openPopup(popupNewAvatar);
-	popup.open();
+	popupEditAvatar.open();
 	disabledSubmitButton(popupNewAvatar)
 });
 
@@ -88,7 +93,8 @@ const submitAvatar = evt => {
 	editAvatar({ avatar: inputAvatarUrl.value })
 		.then(data => {
 			profileAvatarImage.src = data.avatar;
-			closePopup(popupNewAvatar);
+			// closePopup(popupNewAvatar);
+			popupEditAvatar.close();
 			evt.target.reset();
 		})
 		.catch(err => console.log(`Ошибка в submitAvatar: ${err}`))
@@ -104,7 +110,8 @@ const addNewCard = evt => {
 	})
 		.then(serverData => {
 			renderCards(cardsContainer, serverData, userId);
-			closePopup(addPopup);
+			// closePopup(addPopup);
+			popupNewCard.close();
 			evt.target.reset();
 		})
 		.catch(err => console.log(`Ошибка в addNewCard: ${err}`))
@@ -123,7 +130,7 @@ const handleProfile = evt => {
 		.then(data => {
 			profileName.textContent = data.name;
 			profileJob.textContent = data.about;
-			popup.close();
+			popupProfile.close();
 		})
 		.catch(err => console.log(`Ошибка в handleProfile: ${err}`))
 		.finally(() => {
