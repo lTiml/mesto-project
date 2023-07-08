@@ -1,7 +1,8 @@
 import { cardsContainer, handleWatchingLikesState, handleDeleteCard } from '../pages/index.js';
 import { imagePopup, cardPopupImage, cardPopupCaption } from './utils.js';
-import { openPopup } from './modal.js';
+// import { openPopup } from './modal.js';
 import { Api } from './api.js';
+import { popup } from '../pages/index.js';
 
 const isLiked = (likesArr, userId) => {
 	return Boolean(
@@ -49,7 +50,7 @@ class Card {
 
 	generate() {
 		this._element = this._getElement();
-		
+
 	}
 }
 
@@ -58,9 +59,9 @@ function createCard(data, userId) {
 	const cardElement = cardsTemplate.querySelector('.card').cloneNode(true);
 	const cardElementImage = cardElement.querySelector('.card__image');
 	const cardElementHeading = cardElement.querySelector('.card__heading');
-	const cardLikeButton = cardElement.querySelector('.card__like'); 
+	const cardLikeButton = cardElement.querySelector('.card__like');
 	const cardDeleteButton = cardElement.querySelector('.card__trash-icon');
-	
+
 	cardElementImage.src = data.link;
 	cardElementImage.alt = data.name;
 	cardElementHeading.textContent = data.name;
@@ -77,7 +78,7 @@ function createCard(data, userId) {
 
 	cardDeleteButton.addEventListener('click', () => handleDeleteCard(data._id, cardElement));
 	cardElementImage.addEventListener('click', () => {
-		openPopup(imagePopup);
+		popup.open();
 		cardPopupImage.alt = data.name;
 		cardPopupCaption.textContent = data.name;
 		cardPopupImage.src = data.link;
@@ -86,14 +87,14 @@ function createCard(data, userId) {
 	return cardElement;
 };
 
-const renderCards = ( cardsContainer, data, userId) => {
+const renderCards = (cardsContainer, data, userId) => {
 	const cardElement = createCard(data, userId);
 	if (data.owner._id === userId) {
 		cardsContainer.prepend(cardElement);
 	} else {
 		cardsContainer.append(cardElement);
 	}
-	
+
 };
 
 export { createCard, renderCards, removeCard, watchingLikesState };

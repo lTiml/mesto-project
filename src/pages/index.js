@@ -21,15 +21,16 @@ const buttonSubmitEditProfile = document.querySelector('.popup__button-edit-prof
 const cardsContainer = document.querySelector('.cards');
 
 // создание эксземпляров класса Popup
-const popupProfile = new Popup('.popup-edit');
-const popupNewCard = new Popup('.popup-add');
-const popupAvatarEdit = new Popup('.popup-new-avatar');
+export const popup = new Popup('.popup');
+popup.setEventListeners();
+
 
 let userId = null;
 
 buttonEditProfile.addEventListener('click', () => {
 	// openPopup(editPopup);
-	popupProfile.open();
+	// popupProfile.open();
+	popup.open();
 	nameInput.value = profileName.textContent;
 	jobInput.value = profileJob.textContent;
 });
@@ -38,26 +39,26 @@ function editProfile() {
 
 	profileName.textContent = nameInput.value;
 	profileJob.textContent = jobInput.value;
-
-	closePopup(editPopup);
+	popup.close();
+	// closePopup(editPopup);
 };
 
 buttonAddNewCard.addEventListener('click', () => {
 	// openPopup(addPopup);
-	popupNewCard.open();
+	popup.open();
 	disabledSubmitButton(addPopup)
 });
 
 formPopupProfile.addEventListener('submit', editProfile);
 
-closePopupButtons.forEach((button) => {
-	const popup = button.closest('.popup');
-	button.addEventListener('click', () => closePopup(popup))
-});
+// closePopupButtons.forEach((button) => {
+// 	const popup = button.closest('.popup');
+// 	button.addEventListener('click', () => closePopup(popup))
+// });
 
 profileAvatar.addEventListener('click', () => {
 	// openPopup(popupNewAvatar);
-	popupAvatarEdit.open()
+	popup.open();
 	disabledSubmitButton(popupNewAvatar)
 });
 
@@ -122,7 +123,7 @@ const handleProfile = evt => {
 		.then(data => {
 			profileName.textContent = data.name;
 			profileJob.textContent = data.about;
-			closePopup(editPopup);
+			popup.close();
 		})
 		.catch(err => console.log(`Ошибка в handleProfile: ${err}`))
 		.finally(() => {

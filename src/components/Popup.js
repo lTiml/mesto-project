@@ -1,4 +1,4 @@
-import { closePopupByEsc } from "./modal";
+// import { closePopupByEsc } from "./modal";
 
 export class Popup {
     constructor(popupSelector) {
