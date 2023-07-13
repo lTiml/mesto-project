@@ -81,7 +81,6 @@ const addCardForm = new PopupWithForm('.popup-add', (inputValues) => {
 	};
 	function handleCardClick(cardData) {
 
-
 		popupWithImage.open(cardData);
 	}
 	api.addCard(cardData)
@@ -102,6 +101,7 @@ const addCardForm = new PopupWithForm('.popup-add', (inputValues) => {
 			setSubmitButtonState({ button: popupAddSubmitButton, text: 'Сохранить', disabled: false });
 		});
 });
+
 popupWithImage.setEventListeners();
 addCardForm.setEventListeners();
 
@@ -314,7 +314,7 @@ const handleDeleteCard = (cardId, cardElement) => {
 		.catch(err => console.log(`Ошибка в handleDeleteCard: ${err}`))
 };
 
-// enableValidation(config);
+// enableValidation(config);g
 
 
 let userId = null;
