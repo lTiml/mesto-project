@@ -52,16 +52,16 @@ export default class Api {
 			.then(this.onRes);
 	}
 
-	likeCard(cardId) {
-		return fetch(`${this.baseUrl}/cards/likes/${cardId}`, {
+	likeCard(data) {
+		return fetch(`${this.baseUrl}/cards/likes/${data._id}`, {
 			method: "PUT",
 			headers: this.headers
 		})
 			.then(this.onRes);
 	}
 
-	dislikeCard(cardId) {
-		return fetch(`${this.baseUrl}/cards/likes/${cardId}`, {
+	dislikeCard(data) {
+		return fetch(`${this.baseUrl}/cards/likes/${data._id}`, {
 			method: "DELETE",
 			headers: this.headers
 		})

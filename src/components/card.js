@@ -29,7 +29,7 @@ export default class Card {
 		return { name, link }
 	}
 
-	likeHandler() {
+	_likeHandler() {
 		this._handleLikeClick();
 	}
 
@@ -54,7 +54,7 @@ export default class Card {
 
 	setCounterLike(likes) {
 		this._likes = likes;
-		this._likeCounter.textContent = likes.length;
+		this._likesCounter.textContent = likes.length;
 	}
 
 	setEventListeners() {

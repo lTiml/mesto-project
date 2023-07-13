@@ -124,7 +124,15 @@ const handleLikeClick = (card) => {
 			.dislikeCard(card)
 			.then((data) => {
 				card.setCounterLike(data.likes);
-				card.setStateLike();
+				card.setLikeState();
+			})
+			.catch((error) => console.log(`Ошибка в handleLikeClick: ${error}`))
+	} else {
+		api
+			.likeCard(card)
+			.then((data) => {
+				card.setCounterLike(data.likes);
+				card.setLikeState();
 			})
 			.catch((error) => console.log(`Ошибка в handleLikeClick: ${error}`))
 	}
