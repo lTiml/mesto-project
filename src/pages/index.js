@@ -10,6 +10,7 @@ import Api from '../components/api.js';
 import UserInfo from '../components/UserInfo';
 import Card from '../components/Card';
 import Section from '../components/Section'
+import PopupWithImage from '../components/PopupWithImage';
 
 const formPopupProfile = document.forms['profile-form'];
 const formPopupAdding = document.forms['card-form'];
@@ -56,7 +57,7 @@ const profileForm = new PopupWithForm('.popup-edit', (inputValues) => {
 		.then((profileData) => {
 			// profileName.textContent = profileData.name;
 			// profileJob.textContent = profileData.about;
-			userInfo.setUserInfo(profileData)
+			userInfo.editProfile(profileData)
 			popupProfile.close();
 		})
 		.catch((err) => {
@@ -69,6 +70,8 @@ const profileForm = new PopupWithForm('.popup-edit', (inputValues) => {
 });
 profileForm.setEventListeners();
 
+const popupWithImage = new PopupWithImage('.popup__big-image', '.popup__image', '.popup__image-caption');
+
 const addCardForm = new PopupWithForm('.popup-add', (inputValues) => {
 	setSubmitButtonState({ button: popupAddSubmitButton, text: 'Сохраняем...', disabled: true });
 
@@ -76,20 +79,33 @@ const addCardForm = new PopupWithForm('.popup-add', (inputValues) => {
 		name: inputValues.name,
 		link: inputValues.link
 	};
+	function handleCardClick(cardData) {
 
+
+		popupWithImage.open(cardData);
+	}
 	api.addCard(cardData)
 		.then(serverData => {
-			renderCards(cardsContainer, serverData, userId);
+			const card = new Card(serverData, userId, {
+				handleCardClick: handleCardClick,
+			}, '#cards-template');
+
+			const cardElement = card.createNewCard();
+			cardsContainer.prepend(cardElement);
+
 			popupNewCard.close();
 			addCardForm.close();
+			popupWithImage.close();
 		})
 		.catch(err => console.log(`Ошибка в addNewCard: ${err}`))
 		.finally(() => {
 			setSubmitButtonState({ button: popupAddSubmitButton, text: 'Сохранить', disabled: false });
 		});
 });
-
+popupWithImage.setEventListeners();
 addCardForm.setEventListeners();
+
+const section = new Section({ renderer: addCards }, '.cards');
 
 
 const newAvatar = new PopupWithForm('.popup-new-avatar', (inputValues) => {
@@ -137,7 +153,7 @@ const createCard = (dataCard) => {
 		{
 			handleCardClick: () => {
 				const cardInfo = card.cardInfo();
-				imagePopup.open(cardInfo);
+				popupWithImage.open(cardInfo);
 			},
 			handleDeleteClick: () => handleDeleteClick(card),
 			handleLikeClick: () => handleLikeClick(card),
@@ -164,7 +180,7 @@ api
 	})
 	.catch(error => console.log(`Ошибка в index.js api: ${error}`))
 
-const addStartingCards = new Section (
+const addStartingCards = new Section(
 	{
 		renderer: (card) => {
 			addCards(card);
@@ -196,20 +212,16 @@ const userInfo = new UserInfo(
 //         console.log(`Ошибка при получении информации о пользователе: ${err}`);
 //     });
 
-// Promise.all([api.getUserInfo(), api.getInitialCards()])
-// 	.then(([userData, initialCards]) => {
-// 		userInfo.setUserInfo(userData);
+api.getUserInfo()
+	.then(userData => {
+		userInfo.editProfile(userData);
 
-// 		// Обновляем аватар пользователя
-// 		const profileAvatarImage = document.querySelector('.profile__avatar-image');
-// 		profileAvatarImage.src = userData.avatar;
-// 		userId = userData._id;
+		const profileAvatarImage = document.querySelector('.profile__avatar-image');
+		profileAvatarImage.src = userData.avatar;
+		userId = userData._id;
+	})
+	.catch(err => console.log(`Ошибка: ${err}`))
 
-// 		initialCards.forEach(cardData => {
-// 			renderCards(cardsContainer, cardData, userId);
-// 		})
-// 	})
-// 	.catch(err => console.log(`Ошибка: ${err}`))
 
 // formElement.addEventListener('submit', function (event) {
 // 	event.preventDefault();
