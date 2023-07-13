@@ -1,7 +1,7 @@
 import './index.css';
 
 import { enableValidation, disabledSubmitButton } from '../components/validate.js';
-import { editPopup, profileName, profileJob, profileAvatar, profileAvatarImage, nameInput, jobInput, config, setSubmitButtonState, inputPlace, inputUrl, inputAvatarUrl } from '../components/utils.js';
+import { editPopup, imagePopup, profileName, profileJob, profileAvatar, profileAvatarImage, nameInput, jobInput, config, setSubmitButtonState, inputPlace, inputUrl, inputAvatarUrl } from '../components/utils.js';
 // import { userInfo } from '../components/api.js';
 // import { Popup } from '../components/Popup.js'
 import Popup from '../components/Popup'
@@ -129,7 +129,7 @@ const handleLikeClick = (card) => {
 			.catch((error) => console.log(`Ошибка в handleLikeClick: ${error}`))
 	}
 }
-
+const cardsTemplate = '#cards-template';
 const createCard = (dataCard) => {
 	const card = new Card(
 		dataCard,
@@ -142,41 +142,47 @@ const createCard = (dataCard) => {
 			handleDeleteClick: () => handleDeleteClick(card),
 			handleLikeClick: () => handleLikeClick(card),
 		},
-		cardTemplate
+		cardsTemplate
 	);
 
 	return card;
 }
 
 export const addCards = (dataCard) => {
-	const card = createCardIntance(dataCard);
-	const cardNode = card.createCard();
-	cardsList.addItem(cardNode);
+	const card = createCard(dataCard);
+	const cardNode = card.createNewCard();
+	addStartingCards.addItem(cardNode);
 }
 
-const cardContainer = '.cards';
+// const cardContainer = '.cards';
 api
 	.dataAll()
 	.then((values) => {
 		const [userData, cards] = values;
 		userInfo.editProfile(userData);
-		startingCards.renderItems(cards);
+		addStartingCards.renderCards(cards);
 	})
 	.catch(error => console.log(`Ошибка в index.js api: ${error}`))
 
-const startingCards = new Section (
+const addStartingCards = new Section (
 	{
 		renderer: (card) => {
 			addCards(card);
 		},
 	},
-	cardContainer
+	config.cardsContainer
 );
+
+const userInfo = new UserInfo(
+	config.profileName,
+	config.profileAbout,
+	config.profileAvatar
+)
 
 // const name = formElement.querySelector('#name-input').value;
 // const about = formElement.querySelector('#job-input').value;
 
-const userInfo = new UserInfo({ nameSelector: '.profile__name', aboutSelector: '.profile__caption' }, api);
+// const userInfo = new UserInfo({ nameSelector: '.profile__name', aboutSelector: '.profile__caption' }, api);
 
 // api.getUserInfo()
 //     .then((userData) => {
@@ -296,7 +302,7 @@ const handleDeleteCard = (cardId, cardElement) => {
 		.catch(err => console.log(`Ошибка в handleDeleteCard: ${err}`))
 };
 
-enableValidation(config);
+// enableValidation(config);
 
 
 let userId = null;
@@ -320,7 +326,7 @@ function editProfile() {
 buttonAddNewCard.addEventListener('click', () => {
 	// openPopup(addPopup);
 	popupNewCard.open();
-	disabledSubmitButton(addPopup)
+	// disabledSubmitButton(addPopup)
 });
 
 formPopupProfile.addEventListener('submit', editProfile);
@@ -333,7 +339,7 @@ formPopupProfile.addEventListener('submit', editProfile);
 profileAvatar.addEventListener('click', () => {
 	// openPopup(popupNewAvatar);
 	popupEditAvatar.open();
-	disabledSubmitButton(popupNewAvatar)
+	// disabledSubmitButton(popupNewAvatar)
 });
 
 // const setUserInfo = user => {
@@ -355,5 +361,5 @@ profileAvatar.addEventListener('click', () => {
 // 		})
 // 	})
 // 	.catch(err => console.log(`Ошибка в getInfo: ${err}`))
-export { cardsContainer, handleWatchingLikesState, handleDeleteCard };
+export { /* cardsContainer, */ handleWatchingLikesState, handleDeleteCard };
 

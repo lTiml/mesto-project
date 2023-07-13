@@ -1,7 +1,7 @@
 import { config } from './utils.js';
 
 export default class Card {
-	constructor(data, userId, cardsTemplate, { handleCardClick, handleDeleteClick, handleLikeClick }) {
+	constructor(data, userId, { handleCardClick, handleDeleteClick, handleLikeClick }, cardsTemplate) {
 		this._name = data.name;
 		this._link = data.link;
 		this._likes = data.likes;
@@ -10,11 +10,15 @@ export default class Card {
 		this._ownerId = data.owner._id
 		this._cardsTemplate = cardsTemplate;
 		this._userId = userId;
+
+		this._handleCardClick = handleCardClick;
+		this._handleDeleteClick = handleDeleteClick;
+		this._handleLikeClick = handleLikeClick;
 	}
 
 	_getElement() {
 		this._card = document
-			.querySelector(this.selector)
+			.querySelector(this._cardsTemplate)
 			.content.querySelector('.card')
 			.cloneNode(true);
 	}
@@ -44,7 +48,7 @@ export default class Card {
 		});
 	}
 
-	setStateLike() {
+	setLikeState() {
 		this._like.classList.toggle(config.likeButtonActive)
 	}
 
@@ -54,17 +58,17 @@ export default class Card {
 	}
 
 	setEventListeners() {
-		this._like.addEvenListener('click', () => {
+		this._like.addEventListener('click', () => {
 			this._likeHandler();
 		});
-		this._deleteButton.addEvenListener('click', () => {
+		this._deleteButton.addEventListener('click', () => {
 			this._removeButtonHandler();
 		});
-		this._image.addEvenListener('click', () => {
+		this._image.addEventListener('click', () => {
 			this._handleCardClick();
 		});
 	}
-
+	
 	createNewCard() {
 		this._getElement();
 
@@ -72,21 +76,21 @@ export default class Card {
 		this._image = this._card.querySelector('.card__image');
 		this._like = this._card.querySelector('.card__like');
 		this._likesCounter = this._card.querySelector('.card__like-counter');
-		this._deleteButton = tis._card.querySelector('.card__trash-icon');
+		this._deleteButton = this._card.querySelector('.card__trash-icon');
 
 		this._image.src = this._link;
 		this._image.alt = this._name;
 		this._cardTitle.textContent = this._name;
 		this._likesCounter = this._likesCount;
 
-		if (this._ownerId === this.userId) {
+		if (this._ownerId === this._userId) {
 			this._deleteButton.style.visibility = 'visible';
 		} else {
 			this._deleteButton.style.visibility = 'hidden';
 		}
 
-		if (this.likeOwner()) {
-			this.setStateLike();
+		if (this.isLiked()) {
+			this.setLikeState();
 		}
 
 		this.setEventListeners();

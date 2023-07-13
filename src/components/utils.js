@@ -21,6 +21,10 @@ const config = ({
 	inputErrorClass: 'popup__input_type_error',
 	errorClass: 'popup__error_visible',
 	likeButtonActive: 'card__like_active',
+	profileName: '.profile__name',
+	profileAbout: '.profile__caption',
+	profileAvatar: '.profile__avatar',
+	cardsContainer: '.cards',
 });
 
 const serverConfig = {
