@@ -72,6 +72,8 @@ profileForm.setEventListeners();
 
 const popupWithImage = new PopupWithImage('.popup__big-image', '.popup__image', '.popup__image-caption');
 
+
+// Создание карточки 
 const addCardForm = new PopupWithForm('.popup-add', (inputValues) => {
 	setSubmitButtonState({ button: popupAddSubmitButton, text: 'Сохраняем...', disabled: true });
 
@@ -80,13 +82,17 @@ const addCardForm = new PopupWithForm('.popup-add', (inputValues) => {
 		link: inputValues.link
 	};
 	function handleCardClick(cardData) {
-
 		popupWithImage.open(cardData);
 	}
+	// function handleLikeClick(cardData) {
+	// 	card.
+	// }
 	api.addCard(cardData)
 		.then(serverData => {
 			const card = new Card(serverData, userId, {
 				handleCardClick: handleCardClick,
+				handleLikeClick: () => handleLikeClick(card),
+
 			}, '#cards-template');
 
 			const cardElement = card.createNewCard();
@@ -103,6 +109,7 @@ const addCardForm = new PopupWithForm('.popup-add', (inputValues) => {
 });
 
 popupWithImage.setEventListeners();
+
 addCardForm.setEventListeners();
 
 const section = new Section({ renderer: addCards }, '.cards');
@@ -137,7 +144,7 @@ const handleDeleteClick = (card) => {
 const handleLikeClick = (card) => {
 	if (card.isLiked()) {
 		api
-			.dislikeCard(card)
+			.dislikeCard(card._id)
 			.then((data) => {
 				card.setCounterLike(data.likes);
 				card.setLikeState();
@@ -145,7 +152,7 @@ const handleLikeClick = (card) => {
 			.catch((error) => console.log(`Ошибка в handleLikeClick: ${error}`))
 	} else {
 		api
-			.likeCard(card)
+			.likeCard(card._id)
 			.then((data) => {
 				card.setCounterLike(data.likes);
 				card.setLikeState();
@@ -153,7 +160,9 @@ const handleLikeClick = (card) => {
 			.catch((error) => console.log(`Ошибка в handleLikeClick: ${error}`))
 	}
 }
+
 const cardsTemplate = '#cards-template';
+
 const createCard = (dataCard) => {
 	const card = new Card(
 		dataCard,

@@ -68,7 +68,7 @@ export default class Card {
 			this._handleCardClick();
 		});
 	}
-	
+
 	createNewCard() {
 		this._getElement();
 
@@ -81,7 +81,7 @@ export default class Card {
 		this._image.src = this._link;
 		this._image.alt = this._name;
 		this._cardTitle.textContent = this._name;
-		this._likesCounter = this._likesCount;
+		this._likesCounter.textContent = this._likesCount;
 
 		if (this._ownerId === this._userId) {
 			this._deleteButton.style.visibility = 'visible';
