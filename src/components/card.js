@@ -26,9 +26,6 @@ export default class Card {
 	cardInfo() {
 		const name = this._name;
 		const link = this._link;
-		if (!name || !link) {
-			console.error('Invalid card properties:', this);
-		}
 		return { name, link }
 	}
 
@@ -68,9 +65,8 @@ export default class Card {
 			this._removeButtonHandler();
 		});
 		this._image.addEventListener('click', () => {
-			this._handleCardClick(this.cardInfo());
+			this._handleCardClick();
 		});
-
 	}
 
 	createNewCard() {
