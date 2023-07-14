@@ -72,7 +72,9 @@ profileForm.setEventListeners();
 
 const popupWithImage = new PopupWithImage('.popup__big-image', '.popup__image', '.popup__image-caption');
 
-
+function handleCardClick(cardData) {
+	popupWithImage.open(cardData);
+}
 // Создание карточки 
 const addCardForm = new PopupWithForm('.popup-add', (inputValues) => {
 	setSubmitButtonState({ button: popupAddSubmitButton, text: 'Сохраняем...', disabled: true });
@@ -81,17 +83,18 @@ const addCardForm = new PopupWithForm('.popup-add', (inputValues) => {
 		name: inputValues.name,
 		link: inputValues.link
 	};
-	function handleCardClick(cardData) {
-		popupWithImage.open(cardData);
-	}
 	// function handleLikeClick(cardData) {
 	// 	card.
 	// }
 	api.addCard(cardData)
 		.then(serverData => {
 			const card = new Card(serverData, userId, {
-				handleCardClick: handleCardClick,
+				handleCardClick: () => {
+					const cardInfo = card.cardInfo();
+					popupWithImage.open(cardInfo);
+				},
 				handleLikeClick: () => handleLikeClick(card),
+				handleDeleteClick: () => handleDeleteClick(card),
 
 			}, '#cards-template');
 
