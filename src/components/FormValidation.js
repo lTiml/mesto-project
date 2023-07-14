@@ -7,7 +7,7 @@ export default class FormValidation {
 	};
 
 	_errorMessage(input) {
-		return this._formElement.querySelector(`.${input.id}-error`);
+		return this._formElement.querySelector(`#${input.id}-error`);
 	};
 
 	_error(input, message) {

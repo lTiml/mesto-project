@@ -18,6 +18,7 @@ const buttonAddNewCard = document.querySelector('.profile__add-button');
 const popupAddSubmitButton = document.querySelector('.popup__button_add');
 const buttonSubmitNewAvatar = document.querySelector('.popup__button_new-avatar');
 const cardsContainer = document.querySelector('.cards');
+let userId = null;
 
 const api = new Api({
 	baseUrl: "https://nomoreparties.co/v1/plus-cohort-25",
