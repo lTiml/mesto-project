@@ -9,6 +9,7 @@ import Card from '../components/Card';
 import Section from '../components/Section'
 import PopupWithImage from '../components/PopupWithImage';
 import FormValidation from '../components/FormValidation';
+import { data } from 'autoprefixer';
 
 const formPopupProfile = document.forms['profile-form'];
 const formPopupAdding = document.forms['card-form'];
@@ -44,26 +45,25 @@ formAvatarValidation.enableValidation();
 // popupEditAvatar.setEventListeners()
 
 const profileForm = new PopupWithForm('.popup-edit', (inputValues) => {
-	const name = nameInput.value;
-	const about = jobInput.value;
 	setSubmitButtonState({ button: popupAddSubmitButton, text: 'Сохраняем...', disabled: true });
 	api.editProfile({
-		name: name,
-		about: about
+		name: inputValues.name,
+		about: inputValues.position
 	})
 		.then((profileData) => {
 			userInfo.editProfile(profileData)
-			// popupProfile.close();
+			profileForm.close();
 		})
 		.catch((err) => {
+			console.log(`Ошибка в profileForm: `, err);
 			console.log(`Ошибка в profileForm: ${err}`);
 		})
 		.finally(() => {
 			setSubmitButtonState({ button: popupAddSubmitButton, text: 'Сохранить', disabled: false });
-			profileForm.close();
 		});
 });
 profileForm.setEventListeners();
+
 
 const popupWithImage = new PopupWithImage('.popup__big-image', '.popup__image', '.popup__image-caption');
 
@@ -94,13 +94,13 @@ const addCardForm = new PopupWithForm('.popup-add', (inputValues) => {
 
 			const cardElement = card.createNewCard();
 			cardsContainer.prepend(cardElement)
+			addCardForm.close();
+			popupWithImage.close();
 
 		})
 		.catch(err => console.log(`Ошибка в addNewCard: ${err}`))
 		.finally(() => {
 			setSubmitButtonState({ button: popupAddSubmitButton, text: 'Сохранить', disabled: false });
-			addCardForm.close();
-			popupWithImage.close();
 		});
 });
 
@@ -114,15 +114,14 @@ const newAvatar = new PopupWithForm('.popup-new-avatar', (inputValues) => {
 		avatar: inputValues.avatar
 	})
 		.then((avatarData) => {
-			console.log(avatarData)
 			// profileAvatarImage.src = avatarData.avatar
-			// не забыдь разобраться почему новый аватар не загружается сразу а только после перезагрузки страници
 			userInfo.editAvatar(avatarData)
+			newAvatar.close();
 		})
 		.catch(err => console.log(`Ошибка в submitAvatar: ${err}`))
 		.finally(() => {
 			setSubmitButtonState({ button: buttonSubmitNewAvatar, text: 'Сохранить', disabled: false })
-			newAvatar.close();
+
 		});
 });
 newAvatar.setEventListeners();
@@ -234,15 +233,14 @@ const userInfo = new UserInfo(
 	config.profileAvatar
 )
 
-api.getUserInfo()
-	.then(userData => {
-		userInfo.editProfile(userData);
-
-		const profileAvatarImage = document.querySelector('.profile__avatar-image');
-		profileAvatarImage.src = userData.avatar;
-		userId = userData._id;
-	})
-	.catch(err => console.log(`Ошибка: ${err}`))
+// api.getUserInfo()
+// 	.then(userData => {
+// 		// userInfo.editProfile(userData);
+// 		// const profileAvatarImage = document.querySelector('.profile__avatar-image');
+// 		// profileAvatarImage.src = userData.avatar;
+// 		userId = userData._id;
+// 	})
+// 	.catch(err => console.log(`Ошибка: ${err}`))
 
 const handleWatchingLikesState = (cardId, isLiked, cardElement) => {
 	toggleLikeState(cardId, isLiked)
@@ -267,22 +265,22 @@ let userId = null;
 
 buttonEditProfile.addEventListener('click', () => {
 	profileForm.open();
-	nameInput.value = profileName.textContent;
-	jobInput.value = profileJob.textContent;
+	const userData = userInfo.getUser();
+	nameInput.value = userData.name;
+	jobInput.value = userData.about;
+
 });
 
-function editProfile() {
-
-	profileName.textContent = nameInput.value;
-	profileJob.textContent = jobInput.value;
-
-};
+// function editProfile() {
+// 	// profileName.textContent = nameInput.value;
+// 	// profileJob.textContent = jobInput.value;
+// 	userInfo.editProfile()
+// };
 
 buttonAddNewCard.addEventListener('click', () => {
 	addCardForm.open();
 });
 
-formPopupProfile.addEventListener('submit', editProfile);
 
 profileAvatar.addEventListener('click', () => {
 	newAvatar.open();
