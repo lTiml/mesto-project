@@ -1,7 +1,6 @@
 import './index.css';
 
-import { profileName, profileJob, profileAvatar, profileAvatarImage, nameInput, jobInput, config, setSubmitButtonState } from '../components/utils.js';
-import Popup from '../components/Popup'
+import { profileName, profileJob, profileAvatar, nameInput, jobInput, config, setSubmitButtonState } from '../components/utils.js';
 import PopupWithForm from '../components/PopupWithForm';
 import Api from '../components/api.js';
 import UserInfo from '../components/UserInfo';
@@ -19,6 +18,10 @@ const buttonAddNewCard = document.querySelector('.profile__add-button');
 const popupAddSubmitButton = document.querySelector('.popup__button_add');
 const buttonSubmitNewAvatar = document.querySelector('.popup__button_new-avatar');
 const cardsContainer = document.querySelector('.cards');
+const cardContainer = ('.cards');
+
+let userId = null;
+let cardList;
 
 const api = new Api({
 	baseUrl: "https://nomoreparties.co/v1/plus-cohort-25",
@@ -78,30 +81,19 @@ const addCardForm = new PopupWithForm('.popup-add', (inputValues) => {
 
 	const cardData = {
 		name: inputValues.name,
-		link: inputValues.link
-	};
-
-	api.addCard(cardData)
-		.then(serverData => {
-			const card = new Card(serverData, userId, {
-				handleCardClick: () => {
-					const cardInfo = card.cardInfo();
-					popupWithImage.open(cardInfo);
-				},
-				handleDeleteClick: () => handleDeleteClick(card),
-				handleLikeClick: () => handleLikeClick(card),
-			}, '#cards-template');
-
+		link: inputValues.link,
+	}
+		.then(data => {
+			const card = createCard(data);
 			const cardElement = card.createNewCard();
-			cardsContainer.prepend(cardElement)
-			addCardForm.close();
-			popupWithImage.close();
-
+			cardList.prependItem(cardElement);
 		})
 		.catch(err => console.log(`Ошибка в addNewCard: ${err}`))
 		.finally(() => {
 			setSubmitButtonState({ button: popupAddSubmitButton, text: 'Сохранить', disabled: false });
-		});
+			addCardForm.close();
+			popupWithImage.close();
+		})
 });
 
 popupWithImage.setEventListeners();
@@ -157,24 +149,6 @@ const handleLikeClick = (card) => {
 
 const cardsTemplate = '#cards-template';
 
-// const createCard = (dataCard) => {
-// 	const card = new Card(
-// 		dataCard,
-// 		userInfo.id,
-// 		{
-// 			handleCardClick: () => {
-// 				const cardInfo = card.cardInfo();
-// 				popupWithImage.open(cardInfo);
-// 			},
-// 			handleDeleteClick: () => handleDeleteClick(card),
-// 			handleLikeClick: () => handleLikeClick(card),
-// 		},
-// 		cardsTemplate
-// 	);
-
-// 	return card;
-// }
-
 const createCard = item => {
 	const card = new Card(
 		item,
@@ -187,33 +161,26 @@ const createCard = item => {
 			handleDeleteClick: () => handleDeleteClick(card),
 			handleLikeClick: () => handleLikeClick(card),
 		}, cardsTemplate);
-	// const cardElement = card.createNewCard();
 	return card
 }
 
-// export const addCards = (dataCard) => {
-// 	const card = createCard(dataCard);
-// 	const cardNode = card.createNewCard();
-// 	addStartingCards.addItem(cardNode);
-// }
-const cardContainer = ('.cards')
 api
 	.dataAll()
 	.then((values) => {
 		const [userData, cards] = values;
 		userInfo.editProfile(userData);
-		const addStartingCards = new Section(
+		cardList = new Section(
 			{
 				items: cards,
 				renderer: item => {
 					const card = createCard(item);
 					const cardElement = card.createNewCard();
-					addStartingCards.addItem(cardElement);
+					cardList.addItem(cardElement);
 				},
 			},
 			cardContainer
 		);
-		addStartingCards.renderCards();
+		cardList.renderCards();
 		// addStartingCards.renderCards(cards);
 	})
 	.catch(error => console.log(`Ошибка в index.js api: ${error}`))
@@ -258,10 +225,7 @@ const handleDeleteCard = (cardId, cardElement) => {
 		.catch(err => console.log(`Ошибка в handleDeleteCard: ${err}`))
 };
 
-// enableValidation(config);g
-
-
-let userId = null;
+// enableValidation(config);
 
 buttonEditProfile.addEventListener('click', () => {
 	profileForm.open();
