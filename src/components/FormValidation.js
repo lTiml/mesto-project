@@ -1,4 +1,3 @@
-import { forEach } from 'core-js/core/array';
 import { config } from './utils.js';
 
 export default class FormValidation {
@@ -8,11 +7,11 @@ export default class FormValidation {
 	};
 
 	_errorMessage(input) {
-		return this._formElement.querySelector(`.${input.id}-error`);
+		return this._formElement.querySelector(`#${input.id}-error`);
 	};
 
 	_error(input, message) {
-		const errorElement = this._errorMessage(`.${input.id}-error`);
+		const errorElement = this._errorMessage(input);
 		input.classList.add(this._config.inputErrorClass);
 		errorElement.textContent = message;
 		errorElement.classList.add(this._config.errorClass);
@@ -82,12 +81,12 @@ export default class FormValidation {
 		this._inputList = Array.from(form.querySelectorAll(this._config.inputSelector));
 		this._button = form.querySelector(this._config.submitButtonSelector);
 
-		this._formElement._addEventListener('reset', () => {
+		this._formElement.addEventListener('reset', () => {
 			this._deleteErrorMessage();
 		});
 		this._toggleButtonState();
 		this._inputList.forEach(input => {
-			input._addEventListener('input', (evt) => {
+			input.addEventListener('input', (evt) => {
 				this._checkInputs(evt);
 			})
 		})
