@@ -23,7 +23,7 @@ const config = ({
 	likeButtonActive: 'card__like_active',
 	profileName: '.profile__name',
 	profileAbout: '.profile__caption',
-	profileAvatar: '.profile__avatar',
+	profileAvatar: '.profile__avatar-image',
 	cardsContainer: '.cards',
 });
 
@@ -35,7 +35,7 @@ const serverConfig = {
 	}
 };
 
-const setSubmitButtonState = ({button, text, disabled}) => {
+const setSubmitButtonState = ({ button, text, disabled }) => {
 	if (disabled) {
 		button.disabled = 'disabled';
 	} else {

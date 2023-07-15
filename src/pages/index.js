@@ -9,6 +9,7 @@ import Card from '../components/Card';
 import Section from '../components/Section'
 import PopupWithImage from '../components/PopupWithImage';
 import FormValidation from '../components/FormValidation';
+import { data } from 'autoprefixer';
 
 const formPopupProfile = document.forms['profile-form'];
 const formPopupAdding = document.forms['card-form'];
@@ -35,17 +36,17 @@ const formAvatarValidation = new FormValidation(formPopupAvatar, config);
 formAvatarValidation.enableValidation();
 
 // создание эксземпляров класса Popup
-export const popupProfile = new Popup('.popup-edit');
-export const popupNewCard = new Popup('.popup-add');
-export const popupEditAvatar = new Popup('.popup-new-avatar')
-popupProfile.setEventListeners();
-popupNewCard.setEventListeners();
-popupEditAvatar.setEventListeners()
+// export const popupProfile = new PopupWithForm('.popup-edit');
+// export const popupNewCard = new PopupWithForm('.popup-add');
+// export const popupEditAvatar = new PopupWithForm('.popup-new-avatar')
+
+// popupProfile.setEventListeners();
+// popupNewCard.setEventListeners();
+// popupEditAvatar.setEventListeners()
 
 const profileForm = new PopupWithForm('.popup-edit', (inputValues) => {
 	const name = nameInput.value;
 	const about = jobInput.value;
-	console.log({ name, about });
 	setSubmitButtonState({ button: popupAddSubmitButton, text: 'Сохраняем...', disabled: true });
 	api.editProfile({
 		name: name,
@@ -53,20 +54,24 @@ const profileForm = new PopupWithForm('.popup-edit', (inputValues) => {
 	})
 		.then((profileData) => {
 			userInfo.editProfile(profileData)
-			popupProfile.close();
+			// popupProfile.close();
 		})
 		.catch((err) => {
 			console.log(`Ошибка в profileForm: ${err}`);
 		})
 		.finally(() => {
 			setSubmitButtonState({ button: popupAddSubmitButton, text: 'Сохранить', disabled: false });
-			popupProfile.close();
+			profileForm.close();
 		});
 });
 profileForm.setEventListeners();
 
 const popupWithImage = new PopupWithImage('.popup__big-image', '.popup__image', '.popup__image-caption');
 
+// const handleCardClick = (card) => {
+// 	const cardInfo = card.cardInfo();
+// 	popupWithImage.open(cardInfo);
+// }
 
 // Создание карточки 
 const addCardForm = new PopupWithForm('.popup-add', (inputValues) => {
@@ -80,19 +85,23 @@ const addCardForm = new PopupWithForm('.popup-add', (inputValues) => {
 	api.addCard(cardData)
 		.then(serverData => {
 			const card = new Card(serverData, userId, {
-				handleCardClick: handleCardClick,
+				handleCardClick: () => {
+					const cardInfo = card.cardInfo();
+					popupWithImage.open(cardInfo);
+				},
+				handleDeleteClick: () => handleDeleteClick(card),
+				handleLikeClick: () => handleLikeClick(card),
 			}, '#cards-template');
 
 			const cardElement = card.createNewCard();
 			cardsContainer.prepend(cardElement)
 
-			popupNewCard.close();
-			addCardForm.close();
-			popupWithImage.close();
 		})
 		.catch(err => console.log(`Ошибка в addNewCard: ${err}`))
 		.finally(() => {
 			setSubmitButtonState({ button: popupAddSubmitButton, text: 'Сохранить', disabled: false });
+			addCardForm.close();
+			popupWithImage.close();
 		});
 });
 
@@ -106,13 +115,15 @@ const newAvatar = new PopupWithForm('.popup-new-avatar', (inputValues) => {
 		avatar: inputValues.avatar
 	})
 		.then((avatarData) => {
-			profileAvatarImage.src = avatarData.avatar
-			newAvatar.close();
-
+			console.log(avatarData)
+			// profileAvatarImage.src = avatarData.avatar
+			// не забыдь разобраться почему новый аватар не загружается сразу а только после перезагрузки страници
+			userInfo.editAvatar(avatarData)
 		})
 		.catch(err => console.log(`Ошибка в submitAvatar: ${err}`))
 		.finally(() => {
 			setSubmitButtonState({ button: buttonSubmitNewAvatar, text: 'Сохранить', disabled: false })
+			newAvatar.close();
 		});
 });
 newAvatar.setEventListeners();
@@ -228,7 +239,7 @@ const handleDeleteCard = (cardId, cardElement) => {
 let userId = null;
 
 buttonEditProfile.addEventListener('click', () => {
-	popupProfile.open();
+	profileForm.open();
 	nameInput.value = profileName.textContent;
 	jobInput.value = profileJob.textContent;
 });
@@ -241,11 +252,11 @@ function editProfile() {
 };
 
 buttonAddNewCard.addEventListener('click', () => {
-	popupNewCard.open();
+	addCardForm.open();
 });
 
 formPopupProfile.addEventListener('submit', editProfile);
 
 profileAvatar.addEventListener('click', () => {
-	popupEditAvatar.open();
+	newAvatar.open();
 });
