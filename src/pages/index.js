@@ -9,7 +9,6 @@ import Card from '../components/Card';
 import Section from '../components/Section'
 import PopupWithImage from '../components/PopupWithImage';
 import FormValidation from '../components/FormValidation';
-import { data } from 'autoprefixer';
 
 const formPopupProfile = document.forms['profile-form'];
 const formPopupAdding = document.forms['card-form'];
@@ -159,9 +158,27 @@ const handleLikeClick = (card) => {
 
 const cardsTemplate = '#cards-template';
 
-const createCard = (dataCard) => {
+// const createCard = (dataCard) => {
+// 	const card = new Card(
+// 		dataCard,
+// 		userInfo.id,
+// 		{
+// 			handleCardClick: () => {
+// 				const cardInfo = card.cardInfo();
+// 				popupWithImage.open(cardInfo);
+// 			},
+// 			handleDeleteClick: () => handleDeleteClick(card),
+// 			handleLikeClick: () => handleLikeClick(card),
+// 		},
+// 		cardsTemplate
+// 	);
+
+// 	return card;
+// }
+
+const createCard = item => {
 	const card = new Card(
-		dataCard,
+		item,
 		userInfo.id,
 		{
 			handleCardClick: () => {
@@ -170,36 +187,46 @@ const createCard = (dataCard) => {
 			},
 			handleDeleteClick: () => handleDeleteClick(card),
 			handleLikeClick: () => handleLikeClick(card),
-		},
-		cardsTemplate
-	);
-
-	return card;
+		}, cardsTemplate);
+	// const cardElement = card.createNewCard();
+	return card
 }
 
-export const addCards = (dataCard) => {
-	const card = createCard(dataCard);
-	const cardNode = card.createNewCard();
-	addStartingCards.addItem(cardNode);
-}
-
+// export const addCards = (dataCard) => {
+// 	const card = createCard(dataCard);
+// 	const cardNode = card.createNewCard();
+// 	addStartingCards.addItem(cardNode);
+// }
+const cardContainer = ('.cards')
 api
 	.dataAll()
 	.then((values) => {
 		const [userData, cards] = values;
 		userInfo.editProfile(userData);
-		addStartingCards.renderCards(cards);
+		const addStartingCards = new Section(
+			{
+				items: cards,
+				renderer: item => {
+					const card = createCard(item);
+					const cardElement = card.createNewCard();
+					addStartingCards.addItem(cardElement);
+				},
+			},
+			cardContainer
+		);
+		addStartingCards.renderCards();
+		// addStartingCards.renderCards(cards);
 	})
 	.catch(error => console.log(`Ошибка в index.js api: ${error}`))
 
-const addStartingCards = new Section(
-	{
-		renderer: (card) => {
-			addCards(card);
-		},
-	},
-	config.cardsContainer
-);
+// const addStartingCards = new Section(
+// 	{
+// 		renderer: (card) => {
+// 			addCards(card);
+// 		},
+// 	},
+// 	config.cardsContainer
+// );
 
 const userInfo = new UserInfo(
 	config.profileName,
