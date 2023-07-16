@@ -74,12 +74,12 @@ const addCardForm = new PopupWithForm('.popup-add', (inputValues) => {
 		const card = createCard(data);
 		const cardElement = card.createNewCard();
 		cardList.prependItem(cardElement);
+		addCardForm.close();
+		popupWithImage.close();
 	})
 	.catch(err => console.log(`Ошибка в addNewCard: ${err}`))
 	.finally(() => {
 		setSubmitButtonState({ button: popupAddSubmitButton, text: 'Сохранить', disabled: false });
-		addCardForm.close();
-		popupWithImage.close();
 	})
 });
 
