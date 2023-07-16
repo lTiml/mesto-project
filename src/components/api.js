@@ -1,70 +1,86 @@
-import { serverConfig } from "./utils.js";
-
-const onRes = res => {
-	if (res.ok) {
-		return res.json();
-	} else {
-		return Promise.reject(`Ошибка: ${res.status}`);
+export default class Api {
+	constructor(options) {
+		this.baseUrl = options.baseUrl;
+		this.headers = options.headers;
 	}
-};
 
-const userInfo = () => {
-	return fetch(`${serverConfig.url}/users/me`, {
-		headers: serverConfig.headers
-	})
-	.then(onRes)
-	.catch(err => console.log(`Ошибка в userInfo: ${err}`))
-};
+	onRes(res) {
+		if (res.ok) {
+			return res.json();
+		} else {
+			return Promise.reject(`Ошибка: ${res.status}`);
+		}
+	}
 
-const getCards = () => {
-	return fetch(`${serverConfig.url}/cards`, {
-		headers: serverConfig.headers
-	})
-	.then(onRes)
-};
+	_request(url, options) {
+		return fetch(`${this.baseUrl}${url}`, options)
+			.then(this.onRes)
+	}
 
-const apiEditProfile = (data) => {
-	return fetch(`${serverConfig.url}/users/me`, {
-		method: "PATCH",
-		headers: serverConfig.headers,
-		body: JSON.stringify(data)
-	})
-	.then(onRes)
-};
+	getInitialCards() {
+		return this._request(`/cards`, {
+			headers: this.headers
+		})
+	}
 
-const addCards = (data) => {
-	// console.log(data)
-	return fetch(`${serverConfig.url}/cards`, {
-		method: "POST",
-		headers: serverConfig.headers,
-		body: JSON.stringify(data)
-	})
-	.then(onRes)
-};
+	getUserInfo() {
+		return this._request(`/users/me`, {
+			headers: this.headers
+		})
+	}
 
-const editAvatar = (data) => {
-	return fetch(`${serverConfig.url}/users/me/avatar`, {
-		method: "PATCH",
-		headers: serverConfig.headers,
-		body: JSON.stringify(data)
-	})
-	.then(onRes)
-};
+	editProfile(data) {
+		return this._request(`/users/me`, {
+			method: "PATCH",
+			headers: this.headers,
+			body: JSON.stringify(data)
+		})
+		// .then(this.onRes);
+	}
 
-const deleteCard = (cardId) => {
-	return fetch(`${serverConfig.url}/cards/${cardId}`, {
-		method: "DELETE",
-		headers: serverConfig.headers,
-	})
-	.then(onRes)
-};
+	addCard(data) {
+		return this._request(`/cards`, {
+			method: "POST",
+			headers: this.headers,
+			body: JSON.stringify(data)
+		})
+		// .then(this.onRes);
+	}
 
-const toggleLikeState = (dataId, isLike) => {
-	return fetch(`${serverConfig.url}/cards/likes/${dataId}`, {
-		method: isLike ? "DELETE" : "PUT",
-		headers: serverConfig.headers,
-	})
-	.then(res => onRes(res))
+	deleteCard(cardId) {
+		return this._request(`/cards/${cardId}`, {
+			method: "DELETE",
+			headers: this.headers
+		})
+		// .then(this.onRes);
+	}
+
+	likeCard(cardId) {
+		return this._request(`/cards/likes/${cardId}`, {
+			method: "PUT",
+			headers: this.headers
+		})
+		// .then(this.onRes);
+	}
+
+	dislikeCard(cardId) {
+		return this._request(`/cards/likes/${cardId}`, {
+			method: "DELETE",
+			headers: this.headers
+		})
+		// .then(this.onRes);
+	}
+
+	editAvatar(data) {
+		return this._request(`/users/me/avatar`, {
+			method: "PATCH",
+			headers: this.headers,
+			body: JSON.stringify(data)
+		})
+		// .then(this.onRes);
+	}
+
+	dataAll() {
+		return Promise.all([this.getUserInfo(), this.getInitialCards()])
+	}
 }
-
-export { userInfo, getCards, apiEditProfile, addCards, editAvatar, deleteCard, toggleLikeState };

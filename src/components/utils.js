@@ -7,8 +7,11 @@ const profileAvatarImage = document.querySelector('.profile__avatar-image');
 const formEditPopup = document.querySelector('.popup__editForm');
 const nameInput = formEditPopup.querySelector('.popup__input_type_name');
 const jobInput = formEditPopup.querySelector('.popup__input_type_status');
+const inputPlace = document.querySelector('.popup__input_type_place');
+const inputUrl = document.querySelector('.popup__input_type_url');
 const cardPopupImage = document.querySelector('.popup__image');
 const cardPopupCaption = document.querySelector('.popup__image-caption');
+const inputAvatarUrl = document.querySelector('.popup__input_type_avatar_url');
 
 const config = ({
 	formSelector: '.popup__form',
@@ -16,7 +19,12 @@ const config = ({
 	submitButtonSelector: '.popup__button',
 	inactiveButtonClass: 'popup__button_disabled',
 	inputErrorClass: 'popup__input_type_error',
-	errorClass: 'popup__error_visible'
+	errorClass: 'popup__error_visible',
+	likeButtonActive: 'card__like_active',
+	profileName: '.profile__name',
+	profileAbout: '.profile__caption',
+	profileAvatar: '.profile__avatar-image',
+	cardsContainer: '.cards',
 });
 
 const serverConfig = {
@@ -27,7 +35,7 @@ const serverConfig = {
 	}
 };
 
-const setSubmitButtonState = ({button, text, disabled}) => {
+const setSubmitButtonState = ({ button, text, disabled }) => {
 	if (disabled) {
 		button.disabled = 'disabled';
 	} else {
@@ -37,4 +45,4 @@ const setSubmitButtonState = ({button, text, disabled}) => {
 	button.textContent = text;
 };
 
-export { setSubmitButtonState, editPopup, imagePopup, profileName, profileJob, profileAvatar, nameInput, jobInput, cardPopupImage, cardPopupCaption, config, serverConfig, profileAvatarImage }
+export { setSubmitButtonState, editPopup, imagePopup, profileName, profileJob, profileAvatar, nameInput, jobInput, cardPopupImage, cardPopupCaption, config, serverConfig, profileAvatarImage, inputPlace, inputUrl, inputAvatarUrl }
